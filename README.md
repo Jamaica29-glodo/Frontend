@@ -1,6 +1,6 @@
 🔗 API Endpoints Used
 
-Base URL: frontend-nine-umber-85.vercel.app
+Base URL: https://frontend-nine-umber-85.vercel.app
 
 1. ROOMS Endpoints
 Method	Endpoint	Description
