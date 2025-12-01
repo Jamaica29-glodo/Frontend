@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxStay Hotel Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo">
+                <i class="fas fa-hotel"></i>
+                <h1>LuxStay Manager</h1>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><button class="nav-link active" data-section="rooms">
+                <i class="fas fa-door-open"></i>
+                <span>Rooms</span>
+            </button></li>
+            <li><button class="nav-link" data-section="guests">
+                <i class="fas fa-users"></i>
+                <span>Guests</span>
+            </button></li>
+            <li><button class="nav-link" data-section="bookings">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </button></li>
+        </ul>
+        <div class="nav-stats">
+            <div class="stat-item">
+                <span class="stat-number" id="totalRooms">0</span>
+                <span class="stat-label">Rooms</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalGuests">0</span>
+                <span class="stat-label">Guests</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalBookings">0</span>
+                <span class="stat-label">Bookings</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Error Banner -->
+        <div id="errorBanner" class="error-banner hidden">
+            <div class="error-content">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorMessage"></span>
+            </div>
+            <button class="close-btn" onclick="hideError()">×</button>
+        </div>
+
+        <!-- Success Banner -->
+        <div id="successBanner" class="success-banner hidden">
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <span id="successMessage"></span>
+            </div>
+            <button class="close-btn" onclick="hideSuccess()">×</button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading Hotel Data...</p>
+        </div>
+
+        <!-- Dashboard Overview -->
+        <section class="dashboard-overview">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon available">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="availableRooms">0</h3>
+                        <p>Available Rooms</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon occupied">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="occupiedRooms">0</h3>
+                        <p>Occupied Rooms</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon guests">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="activeGuests">0</h3>
+                        <p>Active Guests</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="todayRevenue">$0</h3>
+                        <p>Today's Revenue</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rooms Section -->
+        <section id="roomsSection" class="section active">
+            <div class="section-header">
+                <div class="header-content">
+                    <h2><i class="fas fa-door-open"></i> Room Management</h2>
+                    <p>Manage hotel rooms, availability, and pricing</p>
+                </div>
+                <button class="btn btn-primary" onclick="showRoomForm()">
+                    <i class="fas fa-plus"></i>
+                    Add New Room
+                </button>
+            </div>
+            
+            <!-- Room Form -->
+            <div id="roomForm" class="form-container hidden">
+                <form id="roomFormElement" class="form">
+                    <div class="form-header">
+                        <h3 id="roomFormTitle">Add New Room</h3>
+                        <button type="button" class="btn-close" onclick="hideRoomForm()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="roomNumber">
+                                <i class="fas fa-hashtag"></i>
+                                Room Number
+                            </label>
+                            <input type="text" id="roomNumber" name="number" placeholder="Enter room number" required>
+                            <span class="error-text" id="roomNumberError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomType">
+                                <i class="fas fa-star"></i>
+                                Room Type
+                            </label>
+                            <select id="roomType" name="type" required>
+                                <option value="single">Single Room</option>
+                                <option value="double">Double Room</option>
+                                <option value="deluxe">Deluxe Room</option>
+                                <option value="suite">Suite</option>
+                                <option value="executive">Executive Suite</option>
+                                <option value="presidential">Presidential Suite</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomPrice">
+                                <i class="fas fa-dollar-sign"></i>
+                                Price per Night ($)
+                            </label>
+                            <input type="number" id="roomPrice" name="price" placeholder="0.00" min="1" step="0.01" required>
+                            <span class="error-text" id="roomPriceError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomCapacity">
+                                <i class="fas fa-user-friends"></i>
+                                Capacity
+                            </label>
+                            <input type="number" id="roomCapacity" name="capacity" placeholder="Number of guests" min="1" required>
+                            <span class="error-text" id="roomCapacityError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomStatus">
+                                <i class="fas fa-circle"></i>
+                                Status
+                            </label>
+                            <select id="roomStatus" name="status" required>
+                                <option value="available">Available</option>
+                                <option value="occupied">Occupied</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="cleaning">Cleaning</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="roomAmenities">
+                                <i class="fas fa-concierge-bell"></i>
+                                Amenities
+                            </label>
+                            <div class="amenities-grid">
+                                <label class="amenity-checkbox">
+                                    <input type="checkbox" name="amenities" value="WiFi"> WiFi
+                                </label>
+                                <label class="amenity-checkbox">
+                                    <input type="checkbox" name="amenities" value="TV"> TV
+                                </label>
+                                <label class="amenity-checkbox">
+                                    <input type="checkbox" name="amenities" value="AC"> Air Conditioning
+                                </label>
+                                <label class="amenity-checkbox">
+                                    <input type="checkbox" name="amenities" value="Mini Bar"> Mini Bar
+                                </label>
+                                <label class="amenity-checkbox">
+                                    <input type="checkbox" name="amenities" value="Safe"> Safe
+                                </label>
+                                <label class="amenity-checkbox">
+                                    <input type="checkbox" name="amenities" value="Balcony"> Balcony
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-save"></i>
+                            Save Room
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="hideRoomForm()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Rooms List -->
+            <div class="section-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="roomSearch" placeholder="Search rooms..." onkeyup="searchRooms()">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="available">Available</button>
+                    <button class="filter-btn" data-filter="occupied">Occupied</button>
+                    <button class="filter-btn" data-filter="maintenance">Maintenance</button>
+                </div>
+            </div>
+
+            <div id="roomsList" class="card-grid"></div>
+        </section>
+
+        <!-- Guests Section -->
+        <section id="guestsSection" class="section">
+            <div class="section-header">
+                <div class="header-content">
+                    <h2><i class="fas fa-users"></i> Guest Management</h2>
+                    <p>Manage guest information and profiles</p>
+                </div>
+                <button class="btn btn-primary" onclick="showGuestForm()">
+                    <i class="fas fa-user-plus"></i>
+                    Add New Guest
+                </button>
+            </div>
+            
+            <!-- Guest Form -->
+            <div id="guestForm" class="form-container hidden">
+                <form id="guestFormElement" class="form">
+                    <div class="form-header">
+                        <h3 id="guestFormTitle">Add New Guest</h3>
+                        <button type="button" class="btn-close" onclick="hideGuestForm()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="guestName">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <input type="text" id="guestName" name="name" placeholder="Enter guest name" required>
+                            <span class="error-text" id="guestNameError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guestEmail">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </label>
+                            <input type="email" id="guestEmail" name="email" placeholder="guest@email.com" required>
+                            <span class="error-text" id="guestEmailError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guestPhone">
+                                <i class="fas fa-phone"></i>
+                                Phone
+                            </label>
+                            <input type="tel" id="guestPhone" name="phone" placeholder="+1 (555) 123-4567" required>
+                            <span class="error-text" id="guestPhoneError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guestNationality">
+                                <i class="fas fa-globe"></i>
+                                Nationality
+                            </label>
+                            <input type="text" id="guestNationality" name="nationality" placeholder="Nationality">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="guestAddress">
+                                <i class="fas fa-home"></i>
+                                Address
+                            </label>
+                            <textarea id="guestAddress" name="address" rows="3" placeholder="Full address"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guestIdType">
+                                <i class="fas fa-id-card"></i>
+                                ID Type
+                            </label>
+                            <select id="guestIdType" name="idType">
+                                <option value="">Select ID Type</option>
+                                <option value="passport">Passport</option>
+                                <option value="driver-license">Driver's License</option>
+                                <option value="national-id">National ID</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guestIdNumber">
+                                <i class="fas fa-fingerprint"></i>
+                                ID Number
+                            </label>
+                            <input type="text" id="guestIdNumber" name="idNumber" placeholder="ID Number">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-save"></i>
+                            Save Guest
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="hideGuestForm()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Guests List -->
+            <div class="section-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="guestSearch" placeholder="Search guests..." onkeyup="searchGuests()">
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Guest</th>
+                            <th>Contact</th>
+                            <th>Nationality</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guestsList">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Bookings Section -->
+        <section id="bookingsSection" class="section">
+            <div class="section-header">
+                <div class="header-content">
+                    <h2><i class="fas fa-calendar-check"></i> Booking Management</h2>
+                    <p>Manage room bookings and reservations</p>
+                </div>
+                <button class="btn btn-primary" onclick="showBookingForm()">
+                    <i class="fas fa-plus-circle"></i>
+                    Create New Booking
+                </button>
+            </div>
+            
+            <!-- Booking Form -->
+            <div id="bookingForm" class="form-container hidden">
+                <form id="bookingFormElement" class="form">
+                    <div class="form-header">
+                        <h3 id="bookingFormTitle">Create New Booking</h3>
+                        <button type="button" class="btn-close" onclick="hideBookingForm()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="bookingGuest">
+                                <i class="fas fa-user"></i>
+                                Guest
+                            </label>
+                            <select id="bookingGuest" name="guestId" required>
+                                <option value="">Select Guest</option>
+                            </select>
+                            <span class="error-text" id="bookingGuestError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingRoom">
+                                <i class="fas fa-bed"></i>
+                                Room
+                            </label>
+                            <select id="bookingRoom" name="roomId" required>
+                                <option value="">Select Room</option>
+                            </select>
+                            <span class="error-text" id="bookingRoomError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkInDate">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Check-in Date
+                            </label>
+                            <input type="date" id="checkInDate" name="checkIn" required>
+                            <span class="error-text" id="checkInError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkOutDate">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Check-out Date
+                            </label>
+                            <input type="date" id="checkOutDate" name="checkOut" required>
+                            <span class="error-text" id="checkOutError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingStatus">
+                                <i class="fas fa-circle"></i>
+                                Status
+                            </label>
+                            <select id="bookingStatus" name="status" required>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="checked-in">Checked-in</option>
+                                <option value="checked-out">Checked-out</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="totalPrice">
+                                <i class="fas fa-dollar-sign"></i>
+                                Total Price ($)
+                            </label>
+                            <input type="number" id="totalPrice" name="totalPrice" min="0" step="0.01" placeholder="0.00">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="bookingNotes">
+                                <i class="fas fa-sticky-note"></i>
+                                Special Requests & Notes
+                            </label>
+                            <textarea id="bookingNotes" name="notes" rows="3" placeholder="Any special requests or notes..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-save"></i>
+                            Save Booking
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="hideBookingForm()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bookings List -->
+            <div class="section-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="bookingSearch" placeholder="Search bookings..." onkeyup="searchBookings()">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="confirmed">Confirmed</button>
+                    <button class="filter-btn" data-filter="checked-in">Checked-in</button>
+                    <button class="filter-btn" data-filter="checked-out">Checked-out</button>
+                </div>
+            </div>
+
+            <div id="bookingsList" class="card-grid"></div>
+        </section>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 id="modalTitle">Confirm Action</h3>
+            <p id="modalMessage">Are you sure you want to perform this action?</p>
+            <div class="modal-actions">
+                <button id="modalConfirm" class="btn btn-danger">
+                    <i class="fas fa-trash"></i>
+                    Confirm
+                </button>
+                <button id="modalCancel" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
