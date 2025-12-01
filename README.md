@@ -20,3 +20,10 @@ GET	/bookings	Get all bookings
 POST	/bookings	Create new booking
 PUT	/bookings/:id	Update booking by ID
 DELETE	/bookings/:id	Delete booking by ID
+
+1. ROOMS Endpoints
+Method	Endpoint	Description
+GET	/rooms	Get all rooms
+POST	/rooms	Create new room
+PUT	/rooms/:id	Update room by ID
+DELETE	/rooms/:id	Delete room by ID
