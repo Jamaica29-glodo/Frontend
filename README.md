@@ -1,5 +1,7 @@
 🔗 API Endpoints Used
+
 Base URL: frontend-nine-umber-85.vercel.app
+
 1. ROOMS Endpoints
 Method	Endpoint	Description
 GET	/rooms	Get all rooms
