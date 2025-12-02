@@ -135,7 +135,7 @@
 • Consistent Design - Uniform styling throughout
 
 
-🖼️Frontend Screenshot
+🖼️ Frontend Screenshot
 
 <img width="1366" height="768" alt="Screenshot 2025-12-02 200523" src="https://github.com/user-attachments/assets/ecb15254-d026-4c83-806f-287f1ccfe3c1" />
 
