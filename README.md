@@ -1,9 +1,9 @@
 # Base URL: https://hotel-management-7-9x9s.onrender.com
 # Base URL: https://frontend-nine-umber-85.vercel.app
 
-📦API Endpoints
+# 📦API Endpoints
 
- 🏨Room Management
+ # 🏨Room Management
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/rooms` | Get all rooms |
@@ -11,7 +11,7 @@
 | PUT | `/rooms/:id` | Update room by ID |
 | DELETE | `/rooms/:id` | Delete room by ID |
 
-👥Guest Management
+# 👥Guest Management
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/guests` | Get all guests |
@@ -19,7 +19,7 @@
 | PUT | `/guests/:id` | Update guest by ID |
 | DELETE | `/guests/:id` | Delete guest by ID |
 
-📅Booking Management
+# 📅Booking Management
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/bookings` | Get all bookings |
@@ -27,10 +27,10 @@
 | PUT | `/bookings/:id` | Update booking by ID |
 | DELETE | `/bookings/:id` | Delete booking by ID |
 
-🌟 Features
+# 🌟 Features
 
 
-🏨 Room Management
+# 🏨 Room Management
 
 • Add, edit, delete rooms - Full CRUD operations for hotel rooms
 
@@ -44,7 +44,7 @@
 
 
 
-👥 Guest Management
+# 👥 Guest Management
 
 • Manage guest profiles and information - Complete guest records
 
@@ -58,7 +58,7 @@
 
 
 
-📅 Booking Management
+# 📅 Booking Management
 
 • Create and manage bookings - Schedule room reservations
 
@@ -74,7 +74,7 @@
 
 
 
-📊 Dashboard & Analytics
+# 📊 Dashboard & Analytics
 
 • Real-time statistics overview - Instant data visualization
 
@@ -90,7 +90,7 @@
 
 
 
-🛠️ Technical Features
+# 🛠️ Technical Features
 
 • Mock Data Support - Works offline with localStorage
 
@@ -114,7 +114,7 @@
 
 
 
-🎨 UI/UX Features
+# 🎨 UI/UX Features
 
 • Modern Dashboard - Clean, intuitive interface
 
@@ -135,7 +135,7 @@
 • Consistent Design - Uniform styling throughout
 
 
-🖼️ Frontend Screenshot
+# 🖼️ Frontend Screenshots
 
 <img width="1366" height="768" alt="Screenshot 2025-12-02 200523" src="https://github.com/user-attachments/assets/ecb15254-d026-4c83-806f-287f1ccfe3c1" />
 
